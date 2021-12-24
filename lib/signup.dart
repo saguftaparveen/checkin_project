@@ -51,6 +51,9 @@ class _SignUpPageState extends State<SignUpPage> {
                 child: Center(
                   child: Column(
                     children: [
+                      SizedBox(
+                        height: size.height * 0.05,
+                      ),
                       Text(
                         "Sign Up",
                         style: TextStyle(
@@ -60,9 +63,9 @@ class _SignUpPageState extends State<SignUpPage> {
                         ),
                       ),
                       Image.asset(
-                        "images/signup.png",
+                        "images/sign.gif",
                         width: size.width,
-                        fit: BoxFit.scaleDown,
+                        fit: BoxFit.fill,
                         height: size.height * 0.4,
                       ),
                       Padding(
