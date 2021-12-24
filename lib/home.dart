@@ -13,16 +13,22 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: TextButton(
-        onPressed: () async {
-          await signout().then((value) =>
-              Navigator.of(context).pushReplacement(MaterialPageRoute(
-                builder: (context) => LoginPage(),
-              )));
-        },
-        child: Text(
-          'Logout',
-        ),
+      color: Colors.amber,
+      child: Column(
+        children: [
+          ElevatedButton(onPressed: () {}, child: Text("check in")),
+          TextButton(
+            onPressed: () async {
+              await signout().then((value) =>
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    builder: (context) => LoginPage(),
+                  )));
+            },
+            child: Text(
+              'Logout',
+            ),
+          ),
+        ],
       ),
     );
   }
