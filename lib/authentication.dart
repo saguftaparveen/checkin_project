@@ -73,6 +73,7 @@ signup(String email, String password, BuildContext context) async {
     // print(e);
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
+        backgroundColor: Colors.red,
         content: Text('Failed to sign up with Email & Password'),
       ),
     );
@@ -95,6 +96,7 @@ Future<User> signin(String email, String password, BuildContext context) async {
     print(e);
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
+        backgroundColor: Colors.red,
         content: Text('Failed to sign in with Email & Password'),
       ),
     );

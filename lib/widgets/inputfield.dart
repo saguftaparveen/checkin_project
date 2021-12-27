@@ -2,9 +2,16 @@ import 'package:flutter/material.dart';
 
 class InputField extends StatefulWidget {
   String? lable;
+
   TextEditingController? controller;
   IconData? myicon;
-  InputField({this.controller, this.lable, this.myicon});
+  bool? obscureText;
+  InputField({
+    this.controller,
+    this.lable,
+    this.myicon,
+    this.obscureText,
+  });
 
   @override
   _InputFieldState createState() => _InputFieldState();
@@ -14,6 +21,7 @@ class _InputFieldState extends State<InputField> {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      obscureText: widget.obscureText!,
       controller: widget.controller,
       // autofocus: true,
       cursorHeight: 26,
@@ -35,9 +43,9 @@ class _InputFieldState extends State<InputField> {
           ),
           border: OutlineInputBorder(
               borderSide: BorderSide.none,
-              borderRadius: BorderRadius.circular(30)),
+              borderRadius: BorderRadius.circular(15)),
           focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color: Colors.blue, width: 1.0),
+            borderSide: const BorderSide(width: 1.0),
             borderRadius: BorderRadius.circular(15),
           ),
           filled: true,

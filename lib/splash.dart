@@ -16,7 +16,7 @@ class _SplashState extends State<Splash> {
   }
 
   _navigatetohome() async {
-    await Future.delayed(Duration(seconds: 3), () {});
+    await Future.delayed(Duration(seconds: 20), () {});
     Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (context) => MyHomePage()));
   }
@@ -26,7 +26,7 @@ class _SplashState extends State<Splash> {
     return Scaffold(
         body: Center(
             child: Image.asset(
-      'images/clock.gif',
+      'images/logo.png',
       height: MediaQuery.of(context).size.height * 0.25,
     )));
   }
