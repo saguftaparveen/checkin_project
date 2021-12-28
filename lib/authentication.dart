@@ -122,23 +122,27 @@ Future<bool> signout() async {
 }
 
 DateTime now = DateTime.now();
-String? date = DateFormat.yMd(DateTime.now()).toString();
+String? date = DateFormat('dd-MM-yyyy').format(DateTime.now()).toString();
 
 checkin(var loc) async {
   var time = DateFormat('hh:mm:ss').format(DateTime.now());
   var location = loc;
   print(date);
-  await FirebaseFirestore.instance
-      .collection("attendance")
-      .doc(FirebaseAuth.instance.currentUser!.uid)
-      .collection(FirebaseAuth.instance.currentUser!.displayName!)
-      .doc(date)
-      .set({
-    'name': FirebaseAuth.instance.currentUser!.displayName,
-    'date': date,
-    'location': location,
-    'signin': time
-  });
+  try {
+    await FirebaseFirestore.instance
+        .collection("attendance")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection(FirebaseAuth.instance.currentUser!.displayName!)
+        .doc(date)
+        .set({
+      'name': FirebaseAuth.instance.currentUser!.displayName,
+      'date': date,
+      'location': location,
+      'signin_time': time,
+    });
+  } catch (e) {
+    print(e);
+  }
 }
 
 checkout() async {
@@ -149,6 +153,6 @@ checkout() async {
       .collection(FirebaseAuth.instance.currentUser!.displayName!)
       .doc(date)
       .update({
-    'signoutdate': time,
+    'signout_time': time,
   });
 }
