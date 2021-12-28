@@ -53,26 +53,129 @@ class _SignUpPageState extends State<SignUpPage> {
                       ),
                       child: Column(
                         children: [
-                          InputField(
+                          TextFormField(
                             controller: username,
-                            lable: "User Name",
-                            myicon: Icons.account_circle_outlined,
+                            // autofocus: true,
+                            cursorHeight: 26,
+                            style: TextStyle(
+                                color: Theme.of(context).primaryColor,
+                                fontSize:
+                                    MediaQuery.textScaleFactorOf(context) * 18),
+                            cursorColor: Theme.of(context).primaryColor,
+                            decoration: InputDecoration(
+                                label: Text(
+                                  "UserName",
+                                  style: TextStyle(
+                                      color: Theme.of(context).primaryColor,
+                                      fontSize: MediaQuery.textScaleFactorOf(
+                                              context) *
+                                          17),
+                                ),
+                                contentPadding:
+                                    EdgeInsets.symmetric(vertical: 18),
+                                prefixIcon: Icon(
+                                  Icons.account_circle_outlined,
+                                  color: Theme.of(context).primaryColor,
+                                ),
+                                border: OutlineInputBorder(
+                                    borderSide: BorderSide.none,
+                                    borderRadius: BorderRadius.circular(15)),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(width: 1.0),
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                filled: true,
+                                fillColor: Theme.of(context)
+                                    .primaryColor
+                                    .withOpacity(0.2)),
                           ),
                           SizedBox(
                             height: size.height * 0.025,
                           ),
-                          InputField(
-                              controller: email,
-                              lable: "Email",
-                              myicon: Icons.account_circle),
+                          TextFormField(
+                            controller: email,
+                            // autofocus: true,
+                            cursorHeight: 26,
+                            style: TextStyle(
+                                color: Theme.of(context).primaryColor,
+                                fontSize:
+                                    MediaQuery.textScaleFactorOf(context) * 18),
+                            cursorColor: Theme.of(context).primaryColor,
+                            decoration: InputDecoration(
+                                label: Text(
+                                  "Email",
+                                  style: TextStyle(
+                                      color: Theme.of(context).primaryColor,
+                                      fontSize: MediaQuery.textScaleFactorOf(
+                                              context) *
+                                          17),
+                                ),
+                                contentPadding:
+                                    EdgeInsets.symmetric(vertical: 18),
+                                prefixIcon: Icon(
+                                  Icons.account_circle,
+                                  color: Theme.of(context).primaryColor,
+                                ),
+                                border: OutlineInputBorder(
+                                    borderSide: BorderSide.none,
+                                    borderRadius: BorderRadius.circular(15)),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(width: 1.0),
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                filled: true,
+                                fillColor: Theme.of(context)
+                                    .primaryColor
+                                    .withOpacity(0.2)),
+                          ),
+                          // InputField(
+                          //     controller: email,
+                          //     lable: "Email",
+                          //     myicon: Icons.account_circle),
                           SizedBox(
                             height: size.height * 0.025,
                           ),
-                          InputField(
-                            myicon: Icons.lock,
+                          TextFormField(
                             controller: password,
-                            lable: "Password",
+                            // autofocus: true,
+                            cursorHeight: 26,
+                            style: TextStyle(
+                                color: Theme.of(context).primaryColor,
+                                fontSize:
+                                    MediaQuery.textScaleFactorOf(context) * 18),
+                            cursorColor: Theme.of(context).primaryColor,
+                            decoration: InputDecoration(
+                                label: Text(
+                                  "Password",
+                                  style: TextStyle(
+                                      color: Theme.of(context).primaryColor,
+                                      fontSize: MediaQuery.textScaleFactorOf(
+                                              context) *
+                                          17),
+                                ),
+                                contentPadding:
+                                    EdgeInsets.symmetric(vertical: 18),
+                                prefixIcon: Icon(
+                                  Icons.lock,
+                                  color: Theme.of(context).primaryColor,
+                                ),
+                                border: OutlineInputBorder(
+                                    borderSide: BorderSide.none,
+                                    borderRadius: BorderRadius.circular(15)),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(width: 1.0),
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                filled: true,
+                                fillColor: Theme.of(context)
+                                    .primaryColor
+                                    .withOpacity(0.2)),
                           ),
+                          // InputField(
+                          //   myicon: Icons.lock,
+                          //   controller: password,
+                          //   lable: "Password",
+                          // ),
                           SizedBox(
                             height: size.height * 0.025,
                           ),
@@ -84,7 +187,8 @@ class _SignUpPageState extends State<SignUpPage> {
                                 fixedSize: Size(size.width - size.width * 0.08,
                                     size.height * 0.07)),
                             onPressed: () {
-                              signup(email.text, password.text, context);
+                              signup(username.text, email.text, password.text,
+                                  context);
                             },
                             child: Text(
                               "Sign Up",

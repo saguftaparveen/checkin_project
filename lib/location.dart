@@ -41,12 +41,8 @@ Future GetAddressFromLatLong(Position position) async {
       await placemarkFromCoordinates(position.latitude, position.longitude);
   print(placemarks);
   Placemark place = placemarks[0];
-  String Address = place.country!;
-// '${place.street}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}';
+  String Address =
+      '${place.street}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}';
   print(Address);
   return Future.value(Address);
-}
-
-Future lund() {
-  return Future.value("alu");
 }
