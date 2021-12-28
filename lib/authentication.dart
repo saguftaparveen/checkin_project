@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import 'home.dart';
 
@@ -44,11 +46,18 @@ showErrDialog(BuildContext context, String err) {
   );
 }
 
-signup(String email, String password, BuildContext context) async {
+signup(
+    String? name, String? email, String? password, BuildContext context) async {
   try {
     UserCredential result = await firebaseAuth.createUserWithEmailAndPassword(
-        email: email, password: password);
+        email: email.toString(), password: password.toString());
+
     User? user = result.user;
+    await FirebaseAuth.instance.currentUser!.updateDisplayName(name);
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(user!.uid)
+        .set({'email': email});
     if (FirebaseAuth.instance.currentUser != null) {
       // wrong call in wrong place!
       Navigator.of(context)
@@ -110,4 +119,36 @@ Future<bool> signout() async {
   // }
   await firebaseAuth.signOut();
   return Future.value(true);
+}
+
+DateTime now = DateTime.now();
+String? date = DateFormat.yMd(DateTime.now()).toString();
+
+checkin(var loc) async {
+  var time = DateFormat('hh:mm:ss').format(DateTime.now());
+  var location = loc;
+  print(date);
+  await FirebaseFirestore.instance
+      .collection("attendance")
+      .doc(FirebaseAuth.instance.currentUser!.uid)
+      .collection(FirebaseAuth.instance.currentUser!.displayName!)
+      .doc(date)
+      .set({
+    'name': FirebaseAuth.instance.currentUser!.displayName,
+    'date': date,
+    'location': location,
+    'signin': time
+  });
+}
+
+checkout() async {
+  var time = DateFormat('hh:mm:ss').format(DateTime.now());
+  await FirebaseFirestore.instance
+      .collection("attendance")
+      .doc(FirebaseAuth.instance.currentUser!.uid)
+      .collection(FirebaseAuth.instance.currentUser!.displayName!)
+      .doc(date)
+      .update({
+    'signoutdate': time,
+  });
 }
