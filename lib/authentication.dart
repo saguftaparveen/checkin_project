@@ -197,3 +197,14 @@ request_form(BuildContext context, String? subject, String? reason,
         backgroundColor: Colors.red, content: Text("Action failed...")));
   }
 }
+
+var latitude;
+var longitude;
+getLatLangfromDB() async {
+  DocumentSnapshot<Map<String, dynamic>> data = await FirebaseFirestore.instance
+      .collection('users')
+      .doc(FirebaseAuth.instance.currentUser!.uid)
+      .get();
+  latitude = data.data()!['latitude'];
+  longitude = data.data()!['longitude'];
+}

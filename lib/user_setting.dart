@@ -1,3 +1,4 @@
+import 'package:checkin_project/authentication.dart';
 import 'package:flutter/material.dart';
 
 class UserSetting extends StatefulWidget {
@@ -10,6 +11,12 @@ class UserSetting extends StatefulWidget {
 class _UserSettingState extends State<UserSetting> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Container(
+      child: ElevatedButton(
+          onPressed: () {
+            getLatLangfromDB();
+          },
+          child: Text("find")),
+    );
   }
 }

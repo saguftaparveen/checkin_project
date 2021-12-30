@@ -13,6 +13,8 @@ class UserHome extends StatefulWidget {
 
 var address = "";
 var display = "";
+var current_latitude;
+var current_longitude;
 
 class _UserHomeState extends State<UserHome> {
   @override
@@ -23,10 +25,11 @@ class _UserHomeState extends State<UserHome> {
 
   shagufta() async {
     Position position = await getGeoLocationPosition();
-    String location = 'Lat: ${position.latitude} , Long: ${position.longitude}';
+    // String location = 'Lat: ${position.latitude} , Long: ${position.longitude}';
     display = await FirebaseAuth.instance.currentUser!.displayName.toString();
     address = await GetAddressFromLatLong(position);
-
+    current_latitude = position.latitude;
+    current_longitude = position.longitude;
     print(address);
     setState(() {});
   }
@@ -39,7 +42,13 @@ class _UserHomeState extends State<UserHome> {
         children: [
           ElevatedButton(
               onPressed: () {
-                checkin(address, context);
+                if (current_latitude == latitude &&
+                    current_longitude == longitude) {
+                  checkin(address, context);
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text("Please go to office")));
+                }
               },
               style: ElevatedButton.styleFrom(
                 primary: Color(0xfff99820),
