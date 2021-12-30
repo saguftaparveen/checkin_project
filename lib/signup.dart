@@ -1,7 +1,9 @@
+import 'package:checkin_project/location.dart';
 import 'package:checkin_project/loginpage.dart';
 import 'package:checkin_project/widgets/inputfield.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 
 import '../authentication.dart';
 import '../home.dart';
@@ -17,6 +19,22 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController email = TextEditingController();
   final TextEditingController username = TextEditingController();
   final TextEditingController password = TextEditingController();
+
+  late double lat;
+  late double lang;
+
+  @override
+  void initState() {
+    getLatLang();
+    super.initState();
+  }
+
+  getLatLang() async {
+    Position position = await getGeoLocationPosition();
+    lat = position.latitude;
+    lang = position.longitude;
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -188,7 +206,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                     size.height * 0.07)),
                             onPressed: () {
                               signup(username.text, email.text, password.text,
-                                  context);
+                                  lat, lang, context);
                             },
                             child: Text(
                               "Sign Up",

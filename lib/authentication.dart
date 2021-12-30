@@ -46,18 +46,20 @@ showErrDialog(BuildContext context, String err) {
   );
 }
 
-signup(
-    String? name, String? email, String? password, BuildContext context) async {
+signup(String? name, String? email, String? password, double lat, double lang,
+    BuildContext context) async {
   try {
     UserCredential result = await firebaseAuth.createUserWithEmailAndPassword(
         email: email.toString(), password: password.toString());
 
     User? user = result.user;
     await FirebaseAuth.instance.currentUser!.updateDisplayName(name);
-    await FirebaseFirestore.instance
-        .collection("users")
-        .doc(user!.uid)
-        .set({'email': email});
+    await FirebaseFirestore.instance.collection("users").doc(user!.uid).set({
+      'email': email,
+      'name': FirebaseAuth.instance.currentUser!.displayName,
+      'latitude': lat,
+      'longitude': lang
+    });
     if (FirebaseAuth.instance.currentUser != null) {
       // wrong call in wrong place!
       Navigator.of(context)
