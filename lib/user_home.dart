@@ -39,7 +39,7 @@ class _UserHomeState extends State<UserHome> {
         children: [
           ElevatedButton(
               onPressed: () {
-                checkin(address);
+                checkin(address, context);
               },
               style: ElevatedButton.styleFrom(
                 primary: Color(0xfff99820),
@@ -49,7 +49,7 @@ class _UserHomeState extends State<UserHome> {
           Text(display),
           ElevatedButton(
               onPressed: () {
-                checkout();
+                checkout(context);
               },
               style: ElevatedButton.styleFrom(
                 primary: Color(0xfff99820),

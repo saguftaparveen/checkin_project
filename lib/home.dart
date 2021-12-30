@@ -1,5 +1,6 @@
 import 'package:checkin_project/authentication.dart';
 import 'package:checkin_project/loginpage.dart';
+import 'package:checkin_project/request_page.dart';
 import 'package:checkin_project/user_home.dart';
 import 'package:checkin_project/user_setting.dart';
 import 'package:flutter/material.dart';
@@ -14,10 +15,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int _selectedItem = 0;
 
-  List<Widget> _widgetOptions = [
-    UserHome(),
-    UserSetting(),
-  ];
+  List<Widget> _widgetOptions = [UserHome(), RequestPage(), UserSetting()];
 
   @override
   Widget build(BuildContext context) {
@@ -42,8 +40,10 @@ class _HomeState extends State<Home> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        elevation: 30,
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+          BottomNavigationBarItem(icon: Icon(Icons.chat), label: "Request"),
           BottomNavigationBarItem(
               icon: Icon(Icons.settings), label: "Settings"),
         ],

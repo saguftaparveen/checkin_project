@@ -124,7 +124,7 @@ Future<bool> signout() async {
 DateTime now = DateTime.now();
 String? date = DateFormat('dd-MM-yyyy').format(DateTime.now()).toString();
 
-checkin(var loc) async {
+checkin(var loc, BuildContext context) async {
   var time = DateFormat('hh:mm:ss').format(DateTime.now());
   var location = loc;
   print(date);
@@ -140,19 +140,58 @@ checkin(var loc) async {
       'location': location,
       'signin_time': time,
     });
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: Colors.green,
+        content: Text("Checked In successfully...")));
   } catch (e) {
     print(e);
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: Colors.red, content: Text("Action failed...")));
   }
 }
 
-checkout() async {
+checkout(BuildContext context) async {
   var time = DateFormat('hh:mm:ss').format(DateTime.now());
-  await FirebaseFirestore.instance
-      .collection("attendance")
-      .doc(FirebaseAuth.instance.currentUser!.uid)
-      .collection(FirebaseAuth.instance.currentUser!.displayName!)
-      .doc(date)
-      .update({
-    'signout_time': time,
-  });
+  try {
+    await FirebaseFirestore.instance
+        .collection("attendance")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection(FirebaseAuth.instance.currentUser!.displayName!)
+        .doc(date)
+        .update({
+      'signout_time': time,
+    });
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: Colors.green,
+        content: Text("Check out successfully...")));
+  } catch (e) {
+    print(e);
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: Colors.red, content: Text("Action failed...")));
+  }
+}
+
+request_form(BuildContext context, String? subject, String? reason,
+    String? duration) async {
+  try {
+    await FirebaseFirestore.instance
+        .collection("requests")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection(FirebaseAuth.instance.currentUser!.displayName!)
+        .doc()
+        .set({
+      'name': FirebaseAuth.instance.currentUser!.displayName,
+      'date': date,
+      'subject': subject,
+      'reason': reason,
+      'duration': duration,
+    });
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: Colors.green,
+        content: Text("Request submitted successfully...")));
+  } catch (e) {
+    print(e);
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: Colors.red, content: Text("Action failed...")));
+  }
 }
