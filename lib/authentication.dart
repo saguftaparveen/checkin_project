@@ -207,4 +207,7 @@ getLatLangfromDB() async {
       .get();
   latitude = data.data()!['latitude'];
   longitude = data.data()!['longitude'];
+
+  print(latitude);
+  print(longitude);
 }
