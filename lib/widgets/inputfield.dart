@@ -23,6 +23,7 @@ class _InputFieldState extends State<InputField> {
     return TextField(
       obscureText: widget.obscureText!,
       controller: widget.controller,
+
       // autofocus: true,
       cursorHeight: 26,
       style: TextStyle(

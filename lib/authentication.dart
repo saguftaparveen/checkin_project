@@ -46,18 +46,20 @@ showErrDialog(BuildContext context, String err) {
   );
 }
 
-signup(
-    String? name, String? email, String? password, BuildContext context) async {
+signup(String? name, String? email, String? password, double lat, double lang,
+    BuildContext context) async {
   try {
     UserCredential result = await firebaseAuth.createUserWithEmailAndPassword(
         email: email.toString(), password: password.toString());
 
     User? user = result.user;
     await FirebaseAuth.instance.currentUser!.updateDisplayName(name);
-    await FirebaseFirestore.instance
-        .collection("users")
-        .doc(user!.uid)
-        .set({'email': email});
+    await FirebaseFirestore.instance.collection("users").doc(user!.uid).set({
+      'email': email,
+      'name': FirebaseAuth.instance.currentUser!.displayName,
+      'latitude': lat,
+      'longitude': lang
+    });
     if (FirebaseAuth.instance.currentUser != null) {
       // wrong call in wrong place!
       Navigator.of(context)
@@ -124,7 +126,7 @@ Future<bool> signout() async {
 DateTime now = DateTime.now();
 String? date = DateFormat('dd-MM-yyyy').format(DateTime.now()).toString();
 
-checkin(var loc) async {
+checkin(var loc, BuildContext context) async {
   var time = DateFormat('hh:mm:ss').format(DateTime.now());
   var location = loc;
   print(date);
@@ -140,19 +142,72 @@ checkin(var loc) async {
       'location': location,
       'signin_time': time,
     });
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: Colors.green,
+        content: Text("Checked In successfully...")));
   } catch (e) {
     print(e);
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: Colors.red, content: Text("Action failed...")));
   }
 }
 
-checkout() async {
+checkout(BuildContext context) async {
   var time = DateFormat('hh:mm:ss').format(DateTime.now());
-  await FirebaseFirestore.instance
-      .collection("attendance")
+  try {
+    await FirebaseFirestore.instance
+        .collection("attendance")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection(FirebaseAuth.instance.currentUser!.displayName!)
+        .doc(date)
+        .update({
+      'signout_time': time,
+    });
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: Colors.green,
+        content: Text("Check out successfully...")));
+  } catch (e) {
+    print(e);
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: Colors.red, content: Text("Action failed...")));
+  }
+}
+
+request_form(BuildContext context, String? subject, String? reason,
+    String? duration) async {
+  try {
+    await FirebaseFirestore.instance
+        .collection("requests")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection(FirebaseAuth.instance.currentUser!.displayName!)
+        .doc()
+        .set({
+      'name': FirebaseAuth.instance.currentUser!.displayName,
+      'date': date,
+      'subject': subject,
+      'reason': reason,
+      'duration': duration,
+    });
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: Colors.green,
+        content: Text("Request submitted successfully...")));
+  } catch (e) {
+    print(e);
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: Colors.red, content: Text("Action failed...")));
+  }
+}
+
+var latitude;
+var longitude;
+getLatLangfromDB() async {
+  DocumentSnapshot<Map<String, dynamic>> data = await FirebaseFirestore.instance
+      .collection('users')
       .doc(FirebaseAuth.instance.currentUser!.uid)
-      .collection(FirebaseAuth.instance.currentUser!.displayName!)
-      .doc(date)
-      .update({
-    'signout_time': time,
-  });
+      .get();
+  latitude = data.data()!['latitude'];
+  longitude = data.data()!['longitude'];
+
+  print(latitude);
+  print(longitude);
 }
