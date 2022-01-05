@@ -17,6 +17,7 @@ var display = "";
 var current_latitude;
 var current_longitude;
 var distancebetween;
+// var value = UserSetting.widget.dropdownvalue;
 
 class _UserHomeState extends State<UserHome> {
   @override
